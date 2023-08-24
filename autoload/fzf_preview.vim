@@ -47,7 +47,9 @@ function! fzf_preview#p(bang, ...) abort
     " if in scratch buffer, override the options
     if &buftype == 'nofile'
         let l:filepath = fzf_preview#save_scratch()
-        let options_s = [ '--preview-window', '+{1}-/2', '--preview-window', 'up:60%', '--preview', 'bat --color always -l man -n -H +{1} --theme TwoDark ' . l:filepath, '--bind', 'ctrl-h:toggle-preview']
+
+        let options_s = [ '--preview-window', '+{1}-/2', '--preview-window', 'up:60%', '--preview', 'bat --color always -l man -n $( [[ {1} ]] && echo -H {1}) --theme TwoDark ' . l:filepath . " | ph $(echo {q} | tr -d \"'\" ) ", '--bind', 'ctrl-h:toggle-preview']
+
         let options = { }
         let options['options'] = options_s
         return options
